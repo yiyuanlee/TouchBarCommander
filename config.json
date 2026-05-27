@@ -1,0 +1,53 @@
+[
+  {
+    "type": "button",
+    "title": "❌ Close",
+    "action": "dismiss",
+    "color": "#ef4444"
+  },
+  {
+    "type": "button",
+    "title": "🎙️ Siri",
+    "action": "siri",
+    "color": "#6366f1"
+  },
+  {
+    "type": "button",
+    "title": "🔇 Mute",
+    "action": "mute",
+    "color": "#f59e0b"
+  },
+  {
+    "type": "slider",
+    "title": "Volume",
+    "action": "volume"
+  },
+  {
+    "type": "button",
+    "title": "⏯️ Play/Pause",
+    "action": "media_play_pause",
+    "color": "#10b981"
+  },
+  {
+    "type": "button",
+    "title": "🎵 Now Playing",
+    "action": "now_playing",
+    "interval": 2
+  },
+  {
+    "type": "button",
+    "title": "🔋 Battery",
+    "action": "shell",
+    "command": "pmset -g batt | grep -Eo '\\d+%'",
+    "interval": 10,
+    "color": "#0d9488"
+  },
+  {
+    "type": "button",
+    "title": "💻 CPU",
+    "action": "shell",
+    "command": "ps -A -o %cpu | awk '{s+=$1} END {printf(\"CPU: %.0f%%\", s)}'",
+    "interval": 5,
+    "color": "#4b5563"
+  }
+]
