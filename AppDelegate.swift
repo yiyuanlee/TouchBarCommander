@@ -3,15 +3,49 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem!
     
+    private func createRocketImage() -> NSImage {
+        let size = NSSize(width: 18, height: 18)
+        let image = NSImage(size: size)
+        image.lockFocus()
+        
+        let path = NSBezierPath()
+        // Rocket main body (70% scaled and centered)
+        path.move(to: NSPoint(x: 9.0, y: 13.9))
+        path.curve(to: NSPoint(x: 11.8, y: 7.6),
+                   controlPoint1: NSPoint(x: 11.1, y: 11.8),
+                   controlPoint2: NSPoint(x: 11.8, y: 9.7))
+        path.line(to: NSPoint(x: 13.2, y: 5.5))
+        path.line(to: NSPoint(x: 11.1, y: 6.2))
+        path.line(to: NSPoint(x: 9.7, y: 4.8))
+        path.line(to: NSPoint(x: 9.0, y: 6.2))
+        path.line(to: NSPoint(x: 8.3, y: 4.8))
+        path.line(to: NSPoint(x: 6.9, y: 6.2))
+        path.line(to: NSPoint(x: 4.8, y: 5.5))
+        path.line(to: NSPoint(x: 6.2, y: 7.6))
+        path.curve(to: NSPoint(x: 9.0, y: 13.9),
+                   controlPoint1: NSPoint(x: 6.2, y: 9.7),
+                   controlPoint2: NSPoint(x: 6.9, y: 11.8))
+        path.close()
+        
+        // Circular window cutout (70% scaled and centered)
+        let windowPath = NSBezierPath(ovalIn: NSRect(x: 7.95, y: 8.3, width: 2.1, height: 2.1))
+        path.append(windowPath)
+        path.windingRule = .evenOdd
+        
+        NSColor.black.set()
+        path.fill()
+        
+        image.unlockFocus()
+        image.isTemplate = true
+        return image
+    }
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the system menu bar item
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         
         if let button = statusBarItem.button {
-            if let image = NSImage(systemSymbolName: "slider.horizontal.3", accessibilityDescription: "TouchBarCommander") {
-                image.isTemplate = true
-                button.image = image
-            }
+            button.image = createRocketImage()
         }
         
         let menu = NSMenu()

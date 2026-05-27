@@ -1,0 +1,579 @@
+Control Strip item registered successfully.
+Loaded 8 items from config.json
+2026-05-27 12:29:04.518 TouchBarCustomizer[35382:1166916] TouchBarCommander ready.
+DEBUG: present() called
+Loaded 8 items from config.json
+DEBUG: touchBar is nil? false
+DEBUG: responds to newSelector presentSystemModalTouchBar:placement:systemTrayItemIdentifier:: true
+DEBUG: responds to oldSelector presentSystemModalFunctionBar:systemTrayItemIdentifier:: false
+DFRSystemModalShowAppObstruction symbol not found.
+2026-05-27 13:49:51.318 TouchBarCustomizer[35382:1166916] This NSLayoutConstraint is being configured with a constant that exceeds internal limits.  A smaller value will be substituted, but this problem should be fixed. Break on BOOL _NSLayoutConstraintNumberExceedsLimit(void) to debug.  This will be logged only once.  This may break in the future.
+Presented via presentSystemModalTouchBar.
+System Modal Touch Bar dismissed.
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+DEBUG: present() called
+Loaded 8 items from config.json
+DEBUG: touchBar is nil? false
+DEBUG: responds to newSelector presentSystemModalTouchBar:placement:systemTrayItemIdentifier:: true
+DEBUG: responds to oldSelector presentSystemModalFunctionBar:systemTrayItemIdentifier:: false
+DFRSystemModalShowAppObstruction symbol not found.
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+Presented via presentSystemModalTouchBar.
+AppleScript error: {
+    NSAppleScriptErrorAppName = "System Events";
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {31, 39}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = "System Events";
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {31, 39}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = "System Events";
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {31, 39}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = "System Events";
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {31, 39}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = "System Events";
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {31, 39}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = "System Events";
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {31, 39}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = "System Events";
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {31, 39}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = "System Events";
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {31, 39}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = "System Events";
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {31, 39}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = "System Events";
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {31, 39}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = "System Events";
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {31, 39}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {71, 9}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = "System Events";
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to System Events.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {31, 39}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {71, 9}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {71, 9}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {71, 9}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}
+AppleScript error: {
+    NSAppleScriptErrorAppName = Music;
+    NSAppleScriptErrorBriefMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorMessage = "Not authorized to send Apple events to Music.";
+    NSAppleScriptErrorNumber = "-1743";
+    NSAppleScriptErrorRange = "NSRange: {95, 7}";
+}

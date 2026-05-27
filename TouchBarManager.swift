@@ -12,6 +12,12 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
     private var timers: [Timer] = []
     private var isPresented = false
     
+    // Pomodoro Timer State
+    private var pomodoroTimeRemaining = 1500
+    private var pomodoroState = "idle"
+    private var pomodoroTimer: Timer?
+    private weak var pomodoroButton: NSButton?
+    
     struct TouchBarItemConfig: Codable {
         let type: String      // "button", "slider", "label"
         let title: String?
@@ -19,6 +25,7 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
         let command: String?
         let interval: Double?
         let color: String?
+        let image: String?
     }
     
     func setupControlStrip() {
@@ -34,7 +41,23 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
         item.view = button
         
         NSTouchBarItem.addSystemTrayItem(item)
-        DFRElementSetControlStripPresenceForIdentifier(controlStripIdentifier, true)
+        
+        // Dynamically invoke DFRElementSetControlStripPresenceForIdentifier to avoid static linking issues
+        let handle = dlopen("/System/Library/PrivateFrameworks/DFRFoundation.framework/DFRFoundation", RTLD_LAZY)
+        if let handle = handle {
+            if let sym = dlsym(handle, "DFRElementSetControlStripPresenceForIdentifier") {
+                typealias FunctionType = @convention(c) (NSTouchBarItem.Identifier, ObjCBool) -> Void
+                let function = unsafeBitCast(sym, to: FunctionType.self)
+                function(controlStripIdentifier, true)
+                print("Control Strip presence set dynamically.")
+            } else {
+                print("DFRElementSetControlStripPresenceForIdentifier not found.")
+            }
+            dlclose(handle)
+        } else {
+            print("Failed to dlopen DFRFoundation.")
+        }
+        
         print("Control Strip item registered successfully.")
     }
     
@@ -52,36 +75,52 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
             [
               {
                 "type": "button",
-                "title": "❌ Close",
+                "title": "",
+                "image": "xmark",
                 "action": "dismiss",
                 "color": "#ef4444"
               },
               {
                 "type": "button",
-                "title": "🎙️ Siri",
-                "action": "siri",
-                "color": "#6366f1"
+                "title": "Siri",
+                "image": "waveform",
+                "action": "siri"
               },
               {
                 "type": "button",
-                "title": "🔇 Mute",
-                "action": "mute",
-                "color": "#f59e0b"
-              },
-              {
-                "type": "slider",
-                "title": "Volume",
-                "action": "volume"
+                "title": "",
+                "image": "speaker.slash",
+                "action": "mute"
               },
               {
                 "type": "button",
-                "title": "🎵 Play",
-                "action": "media_play_pause",
-                "color": "#10b981"
+                "title": "",
+                "image": "minus",
+                "action": "volume_down"
               },
               {
                 "type": "button",
-                "title": "🔋 Battery",
+                "title": "",
+                "image": "plus",
+                "action": "volume_up"
+              },
+              {
+                "type": "button",
+                "title": "",
+                "image": "playpause.fill",
+                "action": "media_play_pause"
+              },
+              {
+                "type": "button",
+                "title": "Now Playing",
+                "image": "music.note",
+                "action": "now_playing",
+                "interval": 2
+              },
+              {
+                "type": "button",
+                "title": "Battery",
+                "image": "battery.100",
                 "action": "shell",
                 "command": "pmset -g batt | grep -Eo '\\\\d+%'",
                 "interval": 10
@@ -134,23 +173,50 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
     }
 
     func present() {
+        print("DEBUG: present() called")
         loadConfig()
-        if let bar = touchBar {
+        print("DEBUG: touchBar is nil? \(touchBar == nil)")
+        guard let bar = touchBar else {
+            print("DEBUG: touchBar is nil, returning early")
+            return
+        }
+
+        // Try macOS 10.14+ API first, then fall back to older API
+        let newSelector = NSSelectorFromString("presentSystemModalTouchBar:placement:systemTrayItemIdentifier:")
+        let oldSelector = NSSelectorFromString("presentSystemModalFunctionBar:systemTrayItemIdentifier:")
+
+        print("DEBUG: responds to newSelector \(newSelector): \(NSTouchBar.responds(to: newSelector))")
+        print("DEBUG: responds to oldSelector \(oldSelector): \(NSTouchBar.responds(to: oldSelector))")
+
+        if NSTouchBar.responds(to: newSelector) {
+            triggerObstruction()
+            NSTouchBar.presentSystemModalTouchBar(bar, placement: 1, systemTrayItemIdentifier: controlStripIdentifier)
+            print("Presented via presentSystemModalTouchBar.")
+        } else if NSTouchBar.responds(to: oldSelector) {
             triggerObstruction()
             NSTouchBar.presentSystemModalFunctionBar(bar, systemTrayItemIdentifier: controlStripIdentifier)
-            isPresented = true
-            print("System Modal Touch Bar presented.")
+            print("Presented via presentSystemModalFunctionBar.")
+        } else {
+            print("ERROR: No system modal Touch Bar API available on this macOS version.")
         }
+        isPresented = true
     }
     
     func dismiss() {
-        if let bar = touchBar {
+        guard let bar = touchBar else { return }
+
+        let newSelector = NSSelectorFromString("dismissSystemModalTouchBar:")
+        let oldSelector = NSSelectorFromString("dismissSystemModalFunctionBar:")
+
+        if NSTouchBar.responds(to: newSelector) {
+            NSTouchBar.dismissSystemModalTouchBar(bar)
+        } else if NSTouchBar.responds(to: oldSelector) {
             NSTouchBar.dismissSystemModalFunctionBar(bar)
-            isPresented = false
-            timers.forEach { $0.invalidate() }
-            timers.removeAll()
-            print("System Modal Touch Bar dismissed.")
         }
+        isPresented = false
+        timers.forEach { $0.invalidate() }
+        timers.removeAll()
+        print("System Modal Touch Bar dismissed.")
     }
     
     // MARK: - NSTouchBarDelegate
@@ -168,12 +234,25 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
         
         if config.type == "slider" && config.action == "volume" {
             let sliderItem = NSSliderTouchBarItem(identifier: identifier)
-            sliderItem.label = config.title ?? "Vol"
+            sliderItem.label = config.title ?? ""
             sliderItem.slider.minValue = 0.0
             sliderItem.slider.maxValue = 1.0
             sliderItem.slider.doubleValue = Double(Actions.getVolume())
             sliderItem.target = self
             sliderItem.action = #selector(volumeSliderChanged(_:))
+            
+            // Limit the volume slider width to be compact
+            sliderItem.slider.translatesAutoresizingMaskIntoConstraints = false
+            sliderItem.slider.widthAnchor.constraint(equalToConstant: 120).isActive = true
+            
+            if let minImg = NSImage(systemSymbolName: "minus", accessibilityDescription: nil) {
+                minImg.isTemplate = true
+                sliderItem.minimumValueAccessory = NSSliderAccessory(image: minImg)
+            }
+            if let maxImg = NSImage(systemSymbolName: "plus", accessibilityDescription: nil) {
+                maxImg.isTemplate = true
+                sliderItem.maximumValueAccessory = NSSliderAccessory(image: maxImg)
+            }
             
             // Periodically sync volume value
             let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak sliderItem] _ in
@@ -185,7 +264,32 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
             return sliderItem
         } else if config.type == "button" {
             let item = NSCustomTouchBarItem(identifier: identifier)
-            let button = NSButton(title: config.title ?? "", target: self, action: #selector(buttonTapped(_:)))
+            let button: NSButton
+            
+            if config.action == "pomodoro" {
+                let image = NSImage(systemSymbolName: "timer", accessibilityDescription: nil)
+                image?.isTemplate = true
+                button = NSButton(image: image ?? NSImage(), target: self, action: #selector(pomodoroTapped(_:)))
+                button.title = formatPomodoroTime()
+                button.imagePosition = .imageLeft
+                self.pomodoroButton = button
+                
+                if pomodoroState == "running" {
+                    button.bezelColor = NSColor.systemOrange
+                } else if pomodoroState == "paused" {
+                    button.bezelColor = NSColor.systemGray
+                }
+            } else if let symbolName = config.image, let image = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil) {
+                image.isTemplate = true
+                button = NSButton(image: image, target: self, action: #selector(buttonTapped(_:)))
+                if let title = config.title, !title.isEmpty {
+                    button.title = title
+                    button.imagePosition = .imageLeft
+                }
+            } else {
+                button = NSButton(title: config.title ?? "", target: self, action: #selector(buttonTapped(_:)))
+            }
+            
             button.tag = index
             button.bezelStyle = .rounded
             
@@ -207,6 +311,8 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
                         } else if config.action == "now_playing" {
                             let np = Actions.getNowPlaying()
                             newTitle = np.isEmpty ? "🔇 Silence" : np
+                        } else if config.action == "network_speed" {
+                            newTitle = Actions.getNetworkSpeedString()
                         } else {
                             newTitle = config.title ?? ""
                         }
@@ -242,6 +348,8 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
                         } else if config.action == "now_playing" {
                             let np = Actions.getNowPlaying()
                             text = np.isEmpty ? "Silence" : np
+                        } else if config.action == "network_speed" {
+                            text = Actions.getNetworkSpeedString()
                         } else {
                             text = config.title ?? ""
                         }
@@ -282,6 +390,16 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
             Actions.mediaNext()
         case "media_prev":
             Actions.mediaPrevious()
+        case "volume_down":
+            Actions.volumeDown()
+        case "volume_up":
+            Actions.volumeUp()
+        case "window_left":
+            Actions.resizeFrontWindow(action: "left")
+        case "window_right":
+            Actions.resizeFrontWindow(action: "right")
+        case "window_maximize":
+            Actions.resizeFrontWindow(action: "maximize")
         case "dismiss":
             dismiss()
         case "shell":
@@ -301,6 +419,70 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
             }
         default:
             break
+        }
+    }
+    
+    // MARK: - Pomodoro Helpers & Action
+    
+    private func formatPomodoroTime() -> String {
+        let minutes = pomodoroTimeRemaining / 60
+        let seconds = pomodoroTimeRemaining % 60
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    private func startPomodoroTimer() {
+        pomodoroTimer?.invalidate()
+        pomodoroState = "running"
+        pomodoroTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            if self.pomodoroTimeRemaining > 0 {
+                self.pomodoroTimeRemaining -= 1
+                DispatchQueue.main.async {
+                    self.pomodoroButton?.title = self.formatPomodoroTime()
+                }
+            } else {
+                self.stopPomodoroTimer()
+                self.triggerPomodoroNotification()
+            }
+        }
+    }
+    
+    private func stopPomodoroTimer() {
+        pomodoroTimer?.invalidate()
+        pomodoroTimer = nil
+    }
+    
+    @objc private func pomodoroTapped(_ sender: NSButton) {
+        if pomodoroState == "idle" {
+            pomodoroTimeRemaining = 1500
+            startPomodoroTimer()
+            sender.bezelColor = NSColor.systemOrange
+        } else if pomodoroState == "running" {
+            pomodoroState = "paused"
+            stopPomodoroTimer()
+            sender.title = "⏸️ " + formatPomodoroTime()
+            sender.bezelColor = NSColor.systemGray
+        } else if pomodoroState == "paused" {
+            // Reset
+            pomodoroState = "idle"
+            pomodoroTimeRemaining = 1500
+            sender.title = formatPomodoroTime()
+            sender.bezelColor = nil
+        }
+    }
+    
+    private func triggerPomodoroNotification() {
+        let notification = NSUserNotification()
+        notification.title = "Pomodoro Finished!"
+        notification.informativeText = "Time to take a break!"
+        notification.soundName = NSUserNotificationDefaultSoundName
+        NSUserNotificationCenter.default.deliver(notification)
+        
+        DispatchQueue.main.async {
+            self.pomodoroButton?.title = "🎉 Break!"
+            self.pomodoroButton?.bezelColor = NSColor.systemGreen
+            self.pomodoroState = "idle"
+            self.pomodoroTimeRemaining = 1500
         }
     }
 }

@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TouchBarCustomizer Preferences</title>
+    <style>
+        :root {
+            --bg-color: #0d0d0f;
+            --panel-bg: #151518;
+            --panel-card: #1c1c21;
+            --accent-color: #007aff;
+            --text-color: #f5f5f7;
+            --text-muted: #86868b;
+            --border-color: #26262b;
+            --hover-color: #25252a;
+            --danger-color: #ff453a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-size: 13px;
+        }
+
+        /* Header */
+        header {
+            height: 56px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            background-color: rgba(21, 21, 24, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 10;
+        }
+
+        .header-left h1 {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            background: linear-gradient(135deg, #ffffff 0%, #a1a1a6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        button:hover {
+            opacity: 0.95;
+            transform: translateY(-0.5px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background-color: var(--border-color);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        button.secondary:hover {
+            background-color: var(--hover-color);
+        }
+
+        button.danger {
+            background-color: var(--danger-color);
+        }
+
+        /* Main Workspace Layout */
+        .workspace {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Left Side: Touch Bar Simulator Canvas & Component Library */
+        .canvas-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            gap: 24px;
+            overflow-y: auto;
+            background: radial-gradient(circle at 50% 30%, #17171c 0%, #0d0d0f 100%);
+        }
+
+        .section-header {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
+        }
+
+        .emulator-container {
+            width: 100%;
+            background: rgba(30, 30, 35, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Premium Touch Bar design */
+        .touchbar-emulator {
+            width: 100%;
+            height: 52px;
+            background-color: #000;
+            border: 1.5px solid #222;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            gap: 6px;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8), 0 8px 24px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .touchbar-emulator::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Drag-and-drop items inside emulator */
+        .tb-item {
+            height: 36px;
+            padding: 0 10px;
+            background-color: #1a1a1a;
+            border: 1px solid #2d2d2d;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: grab;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            white-space: nowrap;
+            color: var(--text-color);
+        }
+
+        .tb-item:active {
+            cursor: grabbing;
+        }
+
+        .tb-item.selected {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2.5px rgba(0, 122, 255, 0.4);
+            background-color: #222;
+        }
+
+        .tb-item-title {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Custom SVG Icon style */
+        .tb-icon {
+            width: 14px;
+            height: 14px;
+            color: currentColor;
+            display: block;
+        }
+
+        /* Spacer representations */
+        .tb-item.type-space {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            color: var(--text-muted);
+            width: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tb-item.type-flexible_space {
+            background-color: rgba(255, 255, 255, 0.01);
+            border: 1px dashed rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            flex-grow: 1;
+            min-width: 64px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tb-item.type-space .tb-item-title,
+        .tb-item.type-flexible_space .tb-item-title {
+            font-size: 9px;
+            opacity: 0.6;
+        }
+
+        /* Slider representation */
+        .tb-slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            width: 150px;
+            padding: 0 6px;
+        }
+
+        .tb-slider-track {
+            flex: 1;
+            height: 3px;
+            background: #444;
+            position: relative;
+            border-radius: 1.5px;
+        }
+
+        .tb-slider-thumb {
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        }
+
+        /* Drop target feedback */
+        .drop-indicator {
+            width: 2px;
+            height: 36px;
+            background-color: var(--accent-color);
+            transition: all 0.1s ease;
+            box-shadow: 0 0 8px var(--accent-color);
+        }
+
+        /* Component Library Panel */
+        .library-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .library-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+        }
+
+        .library-card {
+            position: relative;
+            background-color: var(--panel-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: grab;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+        }
+
+        .library-card:hover {
+            border-color: #3e3e4a;
+            transform: translateY(-1px);
+            background-color: var(--hover-color);
+        }
+
+        .library-card:active {
+            cursor: grabbing;
+        }
+
+        .library-card .tb-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--text-muted);
+        }
+
+        .library-card:hover .tb-icon {
+            color: var(--text-color);
+        }
+
+        .library-card span {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Add badge styling */
+        .add-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 18px;
+            height: 18px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+        }
+
+        .library-card:hover .add-badge {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .add-badge:hover {
+            transform: scale(1.15);
+            background-color: #3395ff;
+        }
+
+        .add-badge:active {
+            transform: scale(0.95);
+        }
+
+        /* Right Side: Sidebar Inspector */
+        .inspector {
+            width: 300px;
+            border-left: 1px solid var(--border-color);
+            background-color: var(--panel-bg);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .inspector-placeholder {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: var(--text-muted);
+            text-align: center;
+            gap: 12px;
+        }
+
+        .inspector-placeholder svg {
+            width: 32px;
+            height: 32px;
+            opacity: 0.3;
+        }
+
+        .inspector-section {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.15);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+            padding-right: 30px;
+        }
+
+        /* Color picker input wrap */
+        .color-picker-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .color-picker-input {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 6px;
+            background: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .color-picker-input::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color-picker-input::-webkit-color-swatch {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Actions -->
+    <header>
+        <div class="header-left">
+            <h1>TouchBarCommander Customizer</h1>
+        </div>
+        <div class="header-actions">
+            <button class="secondary" onclick="restoreDefaultConfig()">Restore Defaults</button>
+            <button onclick="saveAndApply()">Save & Apply</button>
+        </div>
+    </header>
+
+    <div class="workspace">
+        <!-- Main Workspace Area -->
+        <div class="canvas-area">
+            
+            <!-- Touch Bar Emulator -->
+            <div class="library-container">
+                <div class="section-header">Touch Bar Layout</div>
+                <div class="emulator-container">
+                    <div class="touchbar-emulator" id="touchbarEmulator">
+                        <!-- Filled dynamically by script -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Drag & Drop Component Library -->
+            <div class="library-container">
+                <div class="section-header">Drag Components to Touch Bar</div>
+                <div class="library-grid">
+                    <div class="library-card" draggable="true" data-preset="dismiss">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        <span>Close Button</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="siri">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        <span>Siri</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="mute">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                        <span>Mute Button</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="volume_down">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>Volume Down (-)</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="volume_up">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>Volume Up (+)</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="media_play_pause">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                        <span>Play/Pause</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="now_playing">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                        <span>Now Playing</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="space">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+                        <span>Fixed Spacer</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="flexible_space">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline><polyline points="12 5 5 12 12 19"></polyline></svg>
+                        <span>Flexible Space</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="weather">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v2M4.93 4.93l1.41 1.41M20 12h2M19.07 4.93l-1.41 1.41"></path>
+                            <path d="M15.9 4.9A7 7 0 0 0 8 12h1a4 4 0 0 1 4 4"></path>
+                            <path d="M17 18a5 5 0 0 0-1-9.9c-.2 0-.5 0-.7.1A7 7 0 0 0 2 12a7 7 0 0 0 6.3 6.9h8.7z"></path>
+                        </svg>
+                        <span>Weather Info</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="pomodoro">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span>Pomodoro Timer</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="window_left">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="12" y1="3" x2="12" y2="21"></line>
+                            <path d="M9 9l-3 3 3 3"></path>
+                        </svg>
+                        <span>Split Left</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="window_right">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="12" y1="3" x2="12" y2="21"></line>
+                            <path d="M15 9l3 3-3 3"></path>
+                        </svg>
+                        <span>Split Right</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="window_maximize">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <polyline points="9 21 3 21 3 15"></polyline>
+                            <line x1="21" y1="3" x2="14" y2="10"></line>
+                            <line x1="3" y1="21" x2="10" y2="14"></line>
+                        </svg>
+                        <span>Maximize</span>
+                    </div>
+                    <div class="library-card" draggable="true" data-preset="network_speed">
+                        <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                            <path d="M12 6v6l4 2"></path>
+                        </svg>
+                        <span>Net Speed</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Side: Sidebar Inspector -->
+        <div class="inspector" id="inspectorPanel">
+            <!-- Filled dynamically by script -->
+        </div>
+    </div>
+
+    <script>
+        let configItems = [];
+        let selectedIndex = -1;
+
+        // Custom SVG icons matching Swift SF Symbols
+        const iconMap = {
+            'xmark': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`,
+            'waveform': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>`,
+            'speaker.slash': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>`,
+            'playpause.fill': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>`,
+            'music.note': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`,
+            'battery.100': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="18" height="12" rx="2" ry="2"></rect><line x1="23" y1="11" x2="23" y2="13"></line></svg>`,
+            'cpu': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="15" x2="23" y2="15"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="15" x2="4" y2="15"></line></svg>`,
+            'cloud.sun.fill': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M4.93 4.93l1.41 1.41M20 12h2M19.07 4.93l-1.41 1.41"></path><path d="M15.9 4.9A7 7 0 0 0 8 12h1a4 4 0 0 1 4 4"></path><path d="M17 18a5 5 0 0 0-1-9.9c-.2 0-.5 0-.7.1A7 7 0 0 0 2 12a7 7 0 0 0 6.3 6.9h8.7z"></path></svg>`,
+            'timer': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`,
+            'minus': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>`,
+            'plus': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>`,
+            'sidebar.left': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>`,
+            'sidebar.right': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="15" y1="3" x2="15" y2="21"></line></svg>`,
+            'arrow.up.left.and.arrow.down.right': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>`,
+            'speedometer': `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h5M17 12h5M12 2v5M12 17v5M4.93 4.93l3.54 3.54M15.54 15.54l3.54 3.54M19.07 4.93l-3.54 3.54M8.46 15.54l-3.54 3.54"/></svg>`
+        };
+
+        const defaultIcon = `<svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>`;
+
+        // Request current config from Swift on load
+        window.onload = function() {
+            // Register library cards for drag start
+            document.querySelectorAll('.library-card').forEach(card => {
+                card.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('preset-type', this.dataset.preset);
+                });
+
+                // Add quick-add badge
+                const badge = document.createElement('div');
+                badge.className = 'add-badge';
+                badge.textContent = '+';
+                badge.title = 'Quick Add';
+                badge.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const type = card.dataset.preset;
+                    insertPreset(type, configItems.length);
+                });
+                card.appendChild(badge);
+            });
+
+            // Target emulator for drag-drop
+            const emulator = document.getElementById('touchbarEmulator');
+            emulator.addEventListener('dragover', e => e.preventDefault());
+            emulator.addEventListener('drop', handleLibraryDrop);
+
+            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.swiftBridge) {
+                window.webkit.messageHandlers.swiftBridge.postMessage({action: "getConfig"});
+            } else {
+                // Mock data for debugging in web browser
+                loadConfig(JSON.stringify([
+                    { "type": "button", "title": "", "image": "xmark", "action": "dismiss", "color": "#ef4444" },
+                    { "type": "button", "title": "Siri", "image": "waveform", "action": "siri" },
+                    { "type": "slider", "action": "volume" },
+                    { "type": "flexible_space" },
+                    { "type": "button", "title": "Now Playing", "image": "music.note", "action": "now_playing", "interval": 2 }
+                ]));
+            }
+        };
+
+        function loadConfig(configJson) {
+            configItems = JSON.parse(configJson);
+            renderTouchBar();
+        }
+
+        // Render Touch Bar items in simulator
+        function renderTouchBar() {
+            const emulator = document.getElementById('touchbarEmulator');
+            emulator.innerHTML = '';
+
+            configItems.forEach((item, index) => {
+                const el = document.createElement('div');
+                el.className = `tb-item type-${item.type}`;
+                if (index === selectedIndex) el.classList.add('selected');
+                
+                el.draggable = true;
+                el.dataset.index = index;
+
+                // Drag Events
+                el.addEventListener('dragstart', handleDragStart);
+                el.addEventListener('dragover', handleDragOver);
+                el.addEventListener('drop', handleDrop);
+                el.addEventListener('dragenter', e => e.preventDefault());
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectItem(index);
+                });
+
+                // Render inside simulator based on type
+                if (item.type === 'space') {
+                    el.innerHTML = '<span class="tb-item-title">Space</span>';
+                } else if (item.type === 'flexible_space') {
+                    el.innerHTML = '<span class="tb-item-title">Flex Space</span>';
+                } else if (item.type === 'slider') {
+                    el.innerHTML = `
+                        <div class="tb-slider-wrapper">
+                            ${iconMap['speaker.wave.1.fill']}
+                            <div class="tb-slider-track"><div class="tb-slider-thumb"></div></div>
+                            ${iconMap['speaker.wave.3.fill']}
+                        </div>
+                    `;
+                } else {
+                    let html = '';
+                    if (item.image) {
+                        html += iconMap[item.image] || defaultIcon;
+                    }
+                    if (item.title) {
+                        html += `<span class="tb-item-title">${item.title}</span>`;
+                    } else if (!item.image) {
+                        html += `<span class="tb-item-title">${item.action || 'Button'}</span>`;
+                    }
+                    el.innerHTML = html;
+
+                    if (item.color) {
+                        el.style.backgroundColor = item.color;
+                        el.style.borderColor = 'rgba(255,255,255,0.05)';
+                    } else {
+                        el.style.backgroundColor = '#1c1c1e';
+                        el.style.borderColor = '#2d2d2d';
+                    }
+                }
+
+                emulator.appendChild(el);
+            });
+
+            // Click emulator background to deselect
+            emulator.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    deselect();
+                }
+            });
+
+            updateInspector();
+        }
+
+        // Selection
+        function selectItem(index) {
+            selectedIndex = index;
+            document.querySelectorAll('.tb-item').forEach((el, idx) => {
+                if (idx === index) el.classList.add('selected');
+                else el.classList.remove('selected');
+            });
+            updateInspector();
+        }
+
+        function deselect() {
+            selectedIndex = -1;
+            document.querySelectorAll('.tb-item').forEach(el => el.classList.remove('selected'));
+            updateInspector();
+        }
+
+        // Drag & Drop re-ordering
+        let draggedItem = null;
+
+        function handleDragStart(e) {
+            draggedItem = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('source-index', this.dataset.index);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const srcIdx = e.dataTransfer.getData('source-index');
+            const presetType = e.dataTransfer.getData('preset-type');
+
+            if (srcIdx !== "") {
+                // Internal re-ordering
+                const from = parseInt(srcIdx);
+                const to = parseInt(this.dataset.index);
+                
+                if (from !== to) {
+                    const removed = configItems.splice(from, 1)[0];
+                    configItems.splice(to, 0, removed);
+                    selectedIndex = to;
+                    renderTouchBar();
+                }
+            } else if (presetType !== "") {
+                // Dragged from library directly onto another item (insert before)
+                const to = parseInt(this.dataset.index);
+                insertPreset(presetType, to);
+            }
+        }
+
+        // Drop from library onto general Touch Bar container (append to end)
+        function handleLibraryDrop(e) {
+            e.preventDefault();
+            const presetType = e.dataTransfer.getData('preset-type');
+            if (presetType !== "" && e.target === this) {
+                insertPreset(presetType, configItems.length);
+            }
+        }
+
+        // Helper to insert presets
+        function insertPreset(type, index) {
+            let newItem = { type: "button", title: "", action: type };
+            
+            if (type === 'dismiss') {
+                newItem.image = "xmark";
+                newItem.color = "#ef4444";
+            } else if (type === 'siri') {
+                newItem.title = "Siri";
+                newItem.image = "waveform";
+            } else if (type === 'mute') {
+                newItem.image = "speaker.slash";
+            } else if (type === 'volume_down') {
+                newItem = { type: "button", title: "", image: "minus", action: "volume_down" };
+            } else if (type === 'volume_up') {
+                newItem = { type: "button", title: "", image: "plus", action: "volume_up" };
+            } else if (type === 'media_play_pause') {
+                newItem.image = "playpause.fill";
+            } else if (type === 'now_playing') {
+                newItem.title = "Now Playing";
+                newItem.image = "music.note";
+                newItem.interval = 2;
+            } else if (type === 'space') {
+                newItem = { type: "space" };
+            } else if (type === 'flexible_space') {
+                newItem = { type: "flexible_space" };
+            } else if (type === 'weather') {
+                newItem = {
+                    type: "button",
+                    title: "Weather",
+                    image: "cloud.sun.fill",
+                    action: "shell",
+                    command: "curl -s \"wttr.in/?format=%c%t\" | sed 's/+//'",
+                    interval: 900
+                };
+            } else if (type === 'pomodoro') {
+                newItem = {
+                    type: "button",
+                    title: "Pomodoro",
+                    image: "timer",
+                    action: "pomodoro"
+                };
+            } else if (type === 'window_left') {
+                newItem = { type: "button", title: "Left", image: "sidebar.left", action: "window_left" };
+            } else if (type === 'window_right') {
+                newItem = { type: "button", title: "Right", image: "sidebar.right", action: "window_right" };
+            } else if (type === 'window_maximize') {
+                newItem = { type: "button", title: "Max", image: "arrow.up.left.and.arrow.down.right", action: "window_maximize" };
+            } else if (type === 'network_speed') {
+                newItem = { type: "button", title: "Net Speed", image: "speedometer", action: "network_speed", interval: 2 };
+            }
+
+            configItems.splice(index, 0, newItem);
+            selectedIndex = index;
+            renderTouchBar();
+        }
+
+        // Update Inspector Form HTML based on selection
+        function updateInspector() {
+            const panel = document.getElementById('inspectorPanel');
+            
+            if (selectedIndex < 0 || selectedIndex >= configItems.length) {
+                panel.innerHTML = `
+                    <div class="inspector-placeholder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <div>Select an item on the Touch Bar or drag one from the library below to begin customizing.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            const item = configItems[selectedIndex];
+            
+            let formHtml = `
+                <div class="inspector-section">
+                    <div class="form-group">
+                        <label>Element Type</label>
+                        <select class="form-control" id="itemType" onchange="updateSelectedFromForm()">
+                            <option value="button" ${item.type === 'button' ? 'selected' : ''}>Button</option>
+                            <option value="slider" ${item.type === 'slider' ? 'selected' : ''}>Slider</option>
+                            <option value="label" ${item.type === 'label' ? 'selected' : ''}>Label</option>
+                            <option value="space" ${item.type === 'space' ? 'selected' : ''}>Fixed Spacer</option>
+                            <option value="flexible_space" ${item.type === 'flexible_space' ? 'selected' : ''}>Flexible Space</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+
+            // Display options based on type
+            if (item.type !== 'space' && item.type !== 'flexible_space') {
+                formHtml += `
+                    <div class="inspector-section">
+                        <div class="section-header">Appearance</div>
+                `;
+
+                if (item.type !== 'slider') {
+                    formHtml += `
+                        <div class="form-group">
+                            <label>Title / Text</label>
+                            <input type="text" class="form-control" id="itemTitle" value="${item.title || ''}" oninput="updateSelectedFromForm()">
+                        </div>
+                        <div class="form-group">
+                            <label>Icon (SF Symbol Name)</label>
+                            <input type="text" class="form-control" id="itemImage" placeholder="e.g. playpause.fill" value="${item.image || ''}" oninput="updateSelectedFromForm()">
+                        </div>
+                    `;
+                }
+
+                if (item.type === 'button') {
+                    formHtml += `
+                        <div class="form-group">
+                            <label>Button Background Color</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" class="color-picker-input" id="itemColor" value="${item.color || '#1c1c1e'}" onchange="updateSelectedFromForm()">
+                                <input type="text" class="form-control" style="width:100px" id="itemColorText" value="${item.color || '#1c1c1e'}" oninput="updateColorFromText(this.value)">
+                            </div>
+                        </div>
+                    `;
+                }
+
+                formHtml += `
+                    </div>
+                    <div class="inspector-section">
+                        <div class="section-header">Actions & Refresh</div>
+                        <div class="form-group">
+                            <label>Action Trigger</label>
+                            <select class="form-control" id="itemAction" onchange="updateSelectedFromForm()">
+                                <option value="" ${!item.action ? 'selected' : ''}>None (Static Display)</option>
+                                <option value="dismiss" ${item.action === 'dismiss' ? 'selected' : ''}>Close Control Panel</option>
+                                <option value="siri" ${item.action === 'siri' ? 'selected' : ''}>Trigger Siri</option>
+                                <option value="mute" ${item.action === 'mute' ? 'selected' : ''}>Toggle Mute</option>
+                                <option value="volume_down" ${item.action === 'volume_down' ? 'selected' : ''}>Volume Down (-)</option>
+                                <option value="volume_up" ${item.action === 'volume_up' ? 'selected' : ''}>Volume Up (+)</option>
+                                <option value="media_play_pause" ${item.action === 'media_play_pause' ? 'selected' : ''}>Media Play/Pause</option>
+                                <option value="media_next" ${item.action === 'media_next' ? 'selected' : ''}>Media Next</option>
+                                <option value="media_prev" ${item.action === 'media_prev' ? 'selected' : ''}>Media Previous</option>
+                                <option value="now_playing" ${item.action === 'now_playing' ? 'selected' : ''}>Get Current Track Info</option>
+                                <option value="pomodoro" ${item.action === 'pomodoro' ? 'selected' : ''}>Pomodoro Timer</option>
+                                <option value="window_left" ${item.action === 'window_left' ? 'selected' : ''}>Window: Left Half</option>
+                                <option value="window_right" ${item.action === 'window_right' ? 'selected' : ''}>Window: Right Half</option>
+                                <option value="window_maximize" ${item.action === 'window_maximize' ? 'selected' : ''}>Window: Maximize</option>
+                                <option value="network_speed" ${item.action === 'network_speed' ? 'selected' : ''}>Network Speed Monitor</option>
+                                <option value="shell" ${item.action === 'shell' ? 'selected' : ''}>Run Custom Shell Command</option>
+                            </select>
+                        </div>
+                `;
+
+                if (item.action === 'shell') {
+                    formHtml += `
+                        <div class="form-group">
+                            <label>Zsh Shell Command</label>
+                            <input type="text" class="form-control" id="itemCommand" placeholder="e.g. pmset -g batt | grep -Eo '\\d+%'" value="${item.command || ''}" oninput="updateSelectedFromForm()">
+                        </div>
+                    `;
+                }
+
+                if (item.action === 'shell' || item.action === 'now_playing' || item.action === 'network_speed') {
+                    formHtml += `
+                        <div class="form-group">
+                            <label>Refresh Interval (Seconds)</label>
+                            <input type="number" class="form-control" id="itemInterval" placeholder="e.g. 5" value="${item.interval || ''}" oninput="updateSelectedFromForm()">
+                        </div>
+                    `;
+                }
+
+                formHtml += `</div>`;
+            }
+
+            formHtml += `
+                <div class="inspector-section" style="margin-top:auto; border-bottom:none">
+                    <button class="danger" style="width:100%" onclick="deleteSelectedItem()">Remove Element</button>
+                </div>
+            `;
+
+            panel.innerHTML = formHtml;
+        }
+
+        // Apply edits to memory config
+        function updateSelectedFromForm() {
+            if (selectedIndex < 0) return;
+            const item = configItems[selectedIndex];
+
+            const type = document.getElementById('itemType').value;
+            
+            // If type changes, clear type-specific settings
+            if (item.type !== type) {
+                item.type = type;
+                if (type === 'space' || type === 'flexible_space') {
+                    delete item.title;
+                    delete item.image;
+                    delete item.color;
+                    delete item.action;
+                    delete item.command;
+                    delete item.interval;
+                } else if (type === 'slider') {
+                    item.action = "volume";
+                    delete item.title;
+                    delete item.image;
+                    delete item.color;
+                    delete item.command;
+                    delete item.interval;
+                }
+                renderTouchBar();
+                return;
+            }
+
+            if (item.type !== 'space' && item.type !== 'flexible_space') {
+                if (item.type !== 'slider') {
+                    item.title = document.getElementById('itemTitle').value;
+                    item.image = document.getElementById('itemImage').value;
+                }
+                
+                if (item.type === 'button') {
+                    const color = document.getElementById('itemColor').value;
+                    item.color = color === '#1c1c1e' ? null : color;
+                }
+
+                item.action = document.getElementById('itemAction').value;
+                
+                const cmdField = document.getElementById('itemCommand');
+                item.command = cmdField ? cmdField.value : null;
+
+                const intField = document.getElementById('itemInterval');
+                item.interval = (intField && intField.value) ? parseFloat(intField.value) : null;
+            }
+
+            renderTouchBar();
+        }
+
+        function updateColorFromText(val) {
+            if (selectedIndex < 0) return;
+            if (/^#[0-9A-F]{6}$/i.test(val)) {
+                configItems[selectedIndex].color = val;
+                document.getElementById('itemColor').value = val;
+                renderTouchBar();
+            }
+        }
+
+        function deleteSelectedItem() {
+            if (selectedIndex >= 0) {
+                configItems.splice(selectedIndex, 1);
+                deselect();
+                renderTouchBar();
+            }
+        }
+
+        // Restore default layout presets
+        function restoreDefaultConfig() {
+            const defaults = [
+                { "type": "button", "title": "", "image": "xmark", "action": "dismiss", "color": "#ef4444" },
+                { "type": "button", "title": "Siri", "image": "waveform", "action": "siri" },
+                { "type": "button", "title": "", "image": "speaker.slash", "action": "mute" },
+                { "type": "button", "title": "", "image": "minus", "action": "volume_down" },
+                { "type": "button", "title": "", "image": "plus", "action": "volume_up" },
+                { "type": "button", "title": "", "image": "playpause.fill", "action": "media_play_pause" },
+                { "type": "button", "title": "Now Playing", "image": "music.note", "action": "now_playing", "interval": 2 },
+                { "type": "button", "title": "Battery", "image": "battery.100", "action": "shell", "command": "pmset -g batt | grep -Eo '\\d+%'", "interval": 10 }
+            ];
+            configItems = defaults;
+            deselect();
+            renderTouchBar();
+        }
+
+        // Save back to Swift
+        function saveAndApply() {
+            const cleanedConfig = configItems.map(item => {
+                let clean = { type: item.type };
+                if (item.title) clean.title = item.title;
+                if (item.image) clean.image = item.image;
+                if (item.action) clean.action = item.action;
+                if (item.command) clean.command = item.command;
+                if (item.interval) clean.interval = item.interval;
+                if (item.color) clean.color = item.color;
+                return clean;
+            });
+
+            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.swiftBridge) {
+                window.webkit.messageHandlers.swiftBridge.postMessage({
+                    action: "saveConfig",
+                    config: JSON.stringify(cleanedConfig, null, 2)
+                });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -16,5 +16,7 @@
     <string>10.15</string>
     <key>LSUIElement</key>
     <true/>
+    <key>NSAppleEventsUsageDescription</key>
+    <string>This application needs to control music players like Apple Music and Spotify to control playback and show track information on the Touch Bar.</string>
 </dict>
 </plist>

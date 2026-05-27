@@ -7,9 +7,6 @@
 extern "C" {
 #endif
 
-// Private function to register a custom Control Strip identifier
-extern void DFRElementSetControlStripPresenceForIdentifier(NSTouchBarItemIdentifier identifier, BOOL presence);
-
 #ifdef __cplusplus
 }
 #endif
@@ -20,7 +17,10 @@ extern void DFRElementSetControlStripPresenceForIdentifier(NSTouchBarItemIdentif
 @end
 
 // Private category to present and dismiss a global system modal touch bar
+// macOS 10.14+ uses presentSystemModalTouchBar, older used presentSystemModalFunctionBar
 @interface NSTouchBar (PrivateMethods)
++ (void)presentSystemModalTouchBar:(NSTouchBar *)touchBar placement:(long long)placement systemTrayItemIdentifier:(NSTouchBarItemIdentifier)identifier;
++ (void)dismissSystemModalTouchBar:(NSTouchBar *)touchBar;
 + (void)presentSystemModalFunctionBar:(NSTouchBar *)touchBar systemTrayItemIdentifier:(NSTouchBarItemIdentifier)identifier;
 + (void)dismissSystemModalFunctionBar:(NSTouchBar *)touchBar;
 @end
