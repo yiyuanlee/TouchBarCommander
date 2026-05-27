@@ -8,7 +8,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         
         if let button = statusBarItem.button {
-            button.title = "🎛️"
+            if let image = NSImage(systemSymbolName: "slider.horizontal.3", accessibilityDescription: "TouchBarCommander") {
+                image.isTemplate = true
+                button.image = image
+            }
         }
         
         let menu = NSMenu()

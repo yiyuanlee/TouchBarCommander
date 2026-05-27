@@ -1,5 +1,8 @@
 import Cocoa
 
-let delegate = AppDelegate()
-NSApplication.shared.delegate = delegate
+class AppManager {
+    static let delegate = AppDelegate()
+}
+
+NSApplication.shared.delegate = AppManager.delegate
 _ = NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)

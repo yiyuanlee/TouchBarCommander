@@ -25,7 +25,11 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
         // Create the status tray item (Control Strip item)
         let item = NSCustomTouchBarItem(identifier: controlStripIdentifier)
         
-        let button = NSButton(title: "💻", target: self, action: #selector(toggleTouchBar))
+        let button = NSButton(title: "", target: self, action: #selector(toggleTouchBar))
+        if let image = NSImage(systemSymbolName: "laptopcomputer", accessibilityDescription: "Toggle Touch Bar") {
+            image.isTemplate = true
+            button.image = image
+        }
         button.bezelStyle = .rounded
         item.view = button
         
