@@ -23,6 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Register standard and custom items
         TouchBarManager.shared.setupControlStrip()
         TouchBarManager.shared.loadConfig()
+        TouchBarManager.shared.present()
         
         print("TouchBarCustomizer application did finish launching.")
     }
