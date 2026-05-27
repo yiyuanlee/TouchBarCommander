@@ -12,11 +12,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: "Toggle Touch Bar", action: #selector(toggleTouchBar), keyEquivalent: "t"))
-        menu.addItem(NSMenuItem(title: "Reload Config", action: #selector(reloadConfig), keyEquivalent: "r"))
-        menu.addItem(NSMenuItem(title: "Open config.json", action: #selector(editConfig), keyEquivalent: "e"))
+        
+        let toggleItem = NSMenuItem(title: "Toggle Touch Bar", action: #selector(toggleTouchBar), keyEquivalent: "t")
+        toggleItem.target = self
+        menu.addItem(toggleItem)
+        
+        let reloadItem = NSMenuItem(title: "Reload Config", action: #selector(reloadConfig), keyEquivalent: "r")
+        reloadItem.target = self
+        menu.addItem(reloadItem)
+        
+        let editItem = NSMenuItem(title: "Open config.json", action: #selector(editConfig), keyEquivalent: "e")
+        editItem.target = self
+        menu.addItem(editItem)
+        
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q"))
+        
+        let quitItem = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
+        quitItem.target = self
+        menu.addItem(quitItem)
         
         statusBarItem.menu = menu
         
