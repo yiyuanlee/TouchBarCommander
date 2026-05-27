@@ -113,9 +113,26 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
         }
     }
     
+    private func triggerObstruction() {
+        let handle = dlopen("/System/Library/PrivateFrameworks/DFRFoundation.framework/DFRFoundation", RTLD_LAZY)
+        if let handle = handle {
+            if let sym = dlsym(handle, "DFRSystemModalShowAppObstruction") {
+                let function = unsafeBitCast(sym, to: (@convention(c) () -> Void).self)
+                function()
+                print("Invoked DFRSystemModalShowAppObstruction dynamically.")
+            } else {
+                print("DFRSystemModalShowAppObstruction symbol not found.")
+            }
+            dlclose(handle)
+        } else {
+            print("Failed to dlopen DFRFoundation.")
+        }
+    }
+
     func present() {
         loadConfig()
         if let bar = touchBar {
+            triggerObstruction()
             NSTouchBar.presentSystemModalFunctionBar(bar, systemTrayItemIdentifier: controlStripIdentifier)
             isPresented = true
             print("System Modal Touch Bar presented.")
