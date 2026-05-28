@@ -18,6 +18,14 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
     private var pomodoroTimer: Timer?
     private weak var pomodoroButton: NSButton?
     
+    // Virtual Pet State
+    private var petHunger = 0 // 0-100, 100 is starving
+    private var petHappiness = 100 // 0-100
+    private var petState = "idle" // idle, sleeping, eating, playing
+    private var petTimer: Timer?
+    private weak var petButton: NSButton?
+    private var petAnimationFrame = 0
+    
     struct TouchBarItemConfig: Codable {
         let type: String      // "button", "slider", "label"
         let title: String?
@@ -279,6 +287,14 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
                 } else if pomodoroState == "paused" {
                     button.bezelColor = NSColor.systemGray
                 }
+            } else if config.action == "pet" {
+                let image = NSImage(systemSymbolName: "pawprint.fill", accessibilityDescription: nil)
+                image?.isTemplate = true
+                button = NSButton(image: image ?? NSImage(), target: self, action: #selector(petTapped(_:)))
+                button.imagePosition = .imageLeft
+                self.petButton = button
+                refreshPetButton()
+                startPetTimer()
             } else if let symbolName = config.image, let image = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil) {
                 image.isTemplate = true
                 button = NSButton(image: image, target: self, action: #selector(buttonTapped(_:)))
@@ -485,7 +501,125 @@ class TouchBarManager: NSObject, NSTouchBarDelegate {
             self.pomodoroTimeRemaining = 1500
         }
     }
+    
+    // MARK: - Virtual Pet Helpers & Action
+    
+    private func startPetTimer() {
+        petTimer?.invalidate()
+        var tickCount = 0
+        let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            tickCount += 1
+            self.petAnimationFrame = (self.petAnimationFrame + 1) % 4
+            
+            if tickCount >= 8 {
+                tickCount = 0
+                self.updatePetStats()
+            }
+            
+            DispatchQueue.main.async {
+                self.refreshPetButton()
+            }
+        }
+        self.petTimer = timer
+        timers.append(timer)
+    }
+    
+    private func updatePetStats() {
+        // Hunger increases
+        petHunger = min(100, petHunger + 5)
+        // Happiness decays
+        if petHunger > 50 {
+            petHappiness = max(0, petHappiness - 10)
+        } else {
+            petHappiness = max(0, petHappiness - 2)
+        }
+        
+        // Randomly fall asleep
+        if petState == "idle" && Int.random(in: 1...10) == 1 {
+            petState = "sleeping"
+        }
+    }
+    
+    private func refreshPetButton() {
+        guard let button = petButton else { return }
+        var titleText = ""
+        
+        switch petState {
+        case "sleeping":
+            let frames = [
+                "💤 ( ᵕ≕ᵕ )",
+                " ( ᵕ≕ᵕ ) 💤",
+                "z ( ᵕ≕ᵕ )",
+                "zz ( ᵕ≕ᵕ )"
+            ]
+            titleText = frames[petAnimationFrame % frames.count]
+            
+        case "eating":
+            let frames = [
+                "( ˙Ⱉ˙ ) 🍗",
+                "( ˙ⱎ˙ ) 🍖",
+                "( ˙Ⱉ˙ ) 🍬",
+                "( ˙ⱎ˙ )"
+            ]
+            titleText = frames[petAnimationFrame % frames.count]
+            
+        case "playing":
+            let frames = [
+                "ヾ(✿ﾟ▽ﾟ)ノ",
+                "ヾ(●゜▽゜●)ノ",
+                "ヾ(✿ﾟ▽ﾟ)ノ ~",
+                "ヾ(●゜▽゜●)ノ"
+            ]
+            titleText = frames[petAnimationFrame % frames.count]
+            
+        default: // idle
+            if petHunger > 70 {
+                let frames = [
+                    "( 😿 ) 💔",
+                    "( 😿 )",
+                    "( 😿 ) 💔",
+                    "( 😿 )"
+                ]
+                titleText = frames[petAnimationFrame % frames.count]
+            } else if petHappiness < 40 {
+                let frames = [
+                    "(・Ⱉ・)",
+                    "(・Ⱉ・)~",
+                    "(｀_´)ゞ",
+                    "(｀_´)ゞ~"
+                ]
+                titleText = frames[petAnimationFrame % frames.count]
+            } else {
+                let frames = [
+                    "🐱 ( ^ω^ )ﾉ",
+                    "🐱 ( -ω- )ﾉ",
+                    "🐱 ( ^ω^ )~",
+                    "🐱 ( ^ω^ )"
+                ]
+                titleText = frames[petAnimationFrame % frames.count]
+            }
+        }
+        
+        button.title = titleText
+    }
+    
+    @objc private func petTapped(_ sender: NSButton) {
+        if petState == "sleeping" {
+            petState = "idle"
+            petHappiness = min(100, petHappiness + 15)
+        } else if petHunger > 40 {
+            petState = "eating"
+            petHunger = max(0, petHunger - 30)
+        } else {
+            petState = "playing"
+            petHappiness = min(100, petHappiness + 25)
+        }
+        petAnimationFrame = 0
+        refreshPetButton()
+    }
 }
+
 
 // MARK: - Hex Color Helper
 extension NSColor {

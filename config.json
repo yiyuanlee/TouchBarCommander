@@ -16,16 +16,17 @@
   },
   {
     "type": "button",
-    "image": "playpause.fill",
-    "action": "media_play_pause"
-  },
-  {
-    "type": "button",
     "title": "Weather",
     "image": "cloud.sun.fill",
     "action": "shell",
     "command": "curl -s \"wttr.in/?format=%c%t\" | sed 's/+//'",
     "interval": 900
+  },
+  {
+    "type": "button",
+    "title": "Virtual Pet",
+    "image": "pawprint.fill",
+    "action": "pet"
   },
   {
     "type": "button",

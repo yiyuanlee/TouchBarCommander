@@ -26,26 +26,26 @@ final class App: NSObject {
         image.lockFocus()
         
         let path = NSBezierPath()
-        // Rocket main body (70% scaled and centered)
-        path.move(to: NSPoint(x: 9.0, y: 13.9))
-        path.curve(to: NSPoint(x: 11.8, y: 7.6),
-                   controlPoint1: NSPoint(x: 11.1, y: 11.8),
-                   controlPoint2: NSPoint(x: 11.8, y: 9.7))
-        path.line(to: NSPoint(x: 13.2, y: 5.5))
-        path.line(to: NSPoint(x: 11.1, y: 6.2))
-        path.line(to: NSPoint(x: 9.7, y: 4.8))
-        path.line(to: NSPoint(x: 9.0, y: 6.2))
-        path.line(to: NSPoint(x: 8.3, y: 4.8))
-        path.line(to: NSPoint(x: 6.9, y: 6.2))
-        path.line(to: NSPoint(x: 4.8, y: 5.5))
-        path.line(to: NSPoint(x: 6.2, y: 7.6))
-        path.curve(to: NSPoint(x: 9.0, y: 13.9),
-                   controlPoint1: NSPoint(x: 6.2, y: 9.7),
-                   controlPoint2: NSPoint(x: 6.9, y: 11.8))
+        // Rocket main body (95% scaled and centered)
+        path.move(to: NSPoint(x: 9.0, y: 15.65))
+        path.curve(to: NSPoint(x: 12.8, y: 7.1),
+                   controlPoint1: NSPoint(x: 11.85, y: 12.8),
+                   controlPoint2: NSPoint(x: 12.8, y: 9.95))
+        path.line(to: NSPoint(x: 14.7, y: 4.25))
+        path.line(to: NSPoint(x: 11.85, y: 5.2))
+        path.line(to: NSPoint(x: 9.95, y: 3.3))
+        path.line(to: NSPoint(x: 9.0, y: 5.2))
+        path.line(to: NSPoint(x: 8.05, y: 3.3))
+        path.line(to: NSPoint(x: 6.15, y: 5.2))
+        path.line(to: NSPoint(x: 3.3, y: 4.25))
+        path.line(to: NSPoint(x: 5.2, y: 7.1))
+        path.curve(to: NSPoint(x: 9.0, y: 15.65),
+                   controlPoint1: NSPoint(x: 5.2, y: 9.95),
+                   controlPoint2: NSPoint(x: 6.15, y: 12.8))
         path.close()
         
-        // Circular window cutout (70% scaled and centered)
-        let windowPath = NSBezierPath(ovalIn: NSRect(x: 7.95, y: 8.3, width: 2.1, height: 2.1))
+        // Circular window cutout (95% scaled and centered)
+        let windowPath = NSBezierPath(ovalIn: NSRect(x: 7.575, y: 8.05, width: 2.85, height: 2.85))
         path.append(windowPath)
         path.windingRule = .evenOdd
         
