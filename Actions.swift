@@ -116,6 +116,7 @@ struct Actions {
             UInt32(MemoryLayout<UInt32>.size),
             &muteVal
         )
+        VolumeHUDWindow.shared.showVolume(getVolume(), isMuted: muteState)
         return muteState
     }
     
@@ -159,12 +160,16 @@ struct Actions {
     
     static func volumeDown() {
         let current = getVolume()
-        setVolume(max(0.0, current - 0.0625))
+        let targetVolume = max(0.0, current - 0.0625)
+        setVolume(targetVolume)
+        VolumeHUDWindow.shared.showVolume(targetVolume, isMuted: isMuted())
     }
     
     static func volumeUp() {
         let current = getVolume()
-        setVolume(min(1.0, current + 0.0625))
+        let targetVolume = min(1.0, current + 0.0625)
+        setVolume(targetVolume)
+        VolumeHUDWindow.shared.showVolume(targetVolume, isMuted: isMuted())
     }
     
     

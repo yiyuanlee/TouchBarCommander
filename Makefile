@@ -4,7 +4,7 @@ APP_BUNDLE=$(BUILD_DIR)/$(APP_NAME).app
 MACOS_DIR=$(APP_BUNDLE)/Contents/MacOS
 RESOURCES_DIR=$(APP_BUNDLE)/Contents/Resources
 
-SWIFT_FILES=main.swift AppDelegate.swift TouchBarManager.swift Actions.swift PreferencesController.swift
+SWIFT_FILES=main.swift AppDelegate.swift TouchBarManager.swift Actions.swift PreferencesController.swift VolumeHUD.swift
 BRIDGING_HEADER=TouchBarPrivate.h
 
 .PHONY: all build run clean
